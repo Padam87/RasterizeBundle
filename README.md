@@ -47,3 +47,7 @@ script:               /bundles/padam87rasterize/js/rasterize.js # Relative to we
 arguments:
     format:              pdf # Default, will always be added, even if you remove it from here
 ```
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/Padam87/rasterizebundle/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
