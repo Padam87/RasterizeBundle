@@ -125,8 +125,8 @@ class Rasterizer
         $builder = new ProcessBuilder();
         $options = array();
 
-        foreach ($this->config['phantomjs']['options'] as $name => $value) {
-            $options[] = sprintf('%s="%s"', $name, $value);
+        foreach ($this->config['phantomjs']['options'] as $option) {
+            $options[] = $option;
         }
 
         $builder
@@ -162,4 +162,4 @@ class Rasterizer
 
         return $content;
     }
-} 
+}
