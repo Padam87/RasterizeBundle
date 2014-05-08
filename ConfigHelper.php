@@ -122,24 +122,12 @@ class ConfigHelper
         $output = $this->getOutputFilePath($uniqueId);
 
         $builder = new ProcessBuilder();
-        $options = array();
-
-        foreach ($this->config['phantomjs']['options'] as $name => $value) {
-            if (is_numeric($name)) {
-                $options[] = $value;
-            } else {
-                if (is_bool($value)) {
-                    $value = ($value) ? 'true' : 'false';
-                }
-                $options[] = sprintf('%s="%s"', $name, $value);
-            }
-        }
 
         $builder
             ->setPrefix($this->config['phantomjs']['callable'])
             ->setArguments(
                 array_merge(
-                    $options,
+                    $this->processPhantomjsOptions(),
                     array($script, $url, $output),
                     array_values(array_merge($this->config['arguments'], $arguments))
                 )
@@ -180,9 +168,7 @@ class ConfigHelper
             "%s://%s%s%s/%s.html",
             $this->context->getScheme(),
             $this->context->getHost(),
-            $this->contextBaseUrl === ""
-                ? $this->context->getBaseUrl()
-                : $this->contextBaseUrl,
+            $this->contextBaseUrl === "" ? $this->context->getBaseUrl() : $this->contextBaseUrl,
             $this->config['temp_dir'],
             $uniqueId
         );
@@ -202,5 +188,26 @@ class ConfigHelper
     protected function getWebDir()
     {
         return $this->rootDir . $this->config['web_dir'];
+    }
+
+    /**
+     * @return array
+     */
+    protected function processPhantomjsOptions()
+    {
+        $options = array();
+
+        foreach ($this->config['phantomjs']['options'] as $name => $value) {
+            if (is_numeric($name)) {
+                $options[] = $value;
+            } else {
+                if (is_bool($value)) {
+                    $value = ($value) ? 'true' : 'false';
+                }
+                $options[] = sprintf('%s="%s"', $name, $value);
+            }
+        }
+
+        return $options;
     }
 }
