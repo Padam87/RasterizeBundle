@@ -1,4 +1,2 @@
 vendor/*
-nbproject
-.idea
 composer.lock
