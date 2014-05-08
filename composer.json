@@ -2,7 +2,7 @@
     "name": "padam87/rasterize-bundle",
     "type": "symfony-bundle",
     "description": "A bundle to rasterize web pages with PhantomJS for Symfony2",
-	"license": "MIT",
+    "license": "MIT",
     "keywords": ["symfony", "rasterize", "phantomjs", "pdf"],
     "homepage": "https://github.com/Padam87/RasterizeBundle",
     "authors": [
@@ -16,7 +16,10 @@
     },
     "require": {
         "php": ">=5.3.3",
-        "symfony/symfony": ">2.1.0"
+        "symfony/framework-bundle": "~2.1"
+    },
+    "require-dev": {
+        "satooshi/php-coveralls": "dev-master"
     },
     "target-dir": "Padam87/RasterizeBundle"
 }

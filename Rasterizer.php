@@ -14,24 +14,9 @@ use Symfony\Component\Stopwatch\Stopwatch;
 class Rasterizer
 {
     /**
-     * @var array
+     * @var ConfigHelper
      */
-    protected $config;
-
-    /**
-     * @var string
-     */
-    protected $rootDir;
-
-    /**
-     * @var \Symfony\Component\Routing\RequestContext
-     */
-    protected $context;
-
-    /**
-     * @var string
-     */
-    protected $contextBaseUrl;
+    protected $configHelper;
 
     /**
      * @var \Symfony\Component\Stopwatch\Stopwatch
@@ -39,20 +24,13 @@ class Rasterizer
     protected $stopwatch;
 
     /**
-     * @param array                                     $config
-     * @param string                                    $rootDir
-     * @param \Symfony\Component\Routing\RequestContext $context
-     * @param string                                    $contextBaseUrl
+     * @param ConfigHelper                              $configHelper
      * @param \Symfony\Component\Stopwatch\Stopwatch    $stopwatch
      */
-    public function __construct(array $config, $rootDir, RequestContext $context,
-        $contextBaseUrl, Stopwatch $stopwatch = null)
+    public function __construct( ConfigHelper $configHelper, Stopwatch $stopwatch = null)
     {
-        $this->config         = $config;
-        $this->rootDir        = $rootDir;
-        $this->context        = $context;
-        $this->contextBaseUrl = $contextBaseUrl;
-        $this->stopwatch      = $stopwatch;
+        $this->configHelper = $configHelper;
+        $this->stopwatch    = $stopwatch;
     }
 
     /**
@@ -72,24 +50,13 @@ class Rasterizer
             $this->stopwatch->start($uniqueId);
         }
 
-        $input  = $this->rootDir . $this->config['web_dir'] .
-            $this->config['temp_dir'] . DIRECTORY_SEPARATOR . $uniqueId . '.html';
+        $input = $this->configHelper->getInputFilePath($uniqueId);
 
         $fh = fopen($input, 'w');
         fwrite($fh, $html);
         fclose($fh);
 
-        $url = sprintf(
-            "%s://%s%s/%s.html",
-            $this->context->getScheme(),
-            $this->context->getHost(),
-            $this->contextBaseUrl === ""
-                ? $this->context->getBaseUrl()
-                : $this->contextBaseUrl,
-            $this->config['temp_dir'] . '/' . $uniqueId
-        );
-
-        $output = $this->rasterizeUrl($url, $arguments, $uniqueId);
+        $output = $this->rasterizeUrl($this->configHelper->getOutputFileUrl($uniqueId), $arguments, $uniqueId);
 
         unlink($input);
 
@@ -97,9 +64,9 @@ class Rasterizer
     }
 
     /**
-     * @param string $url
-     * @param array  $arguments
-     * @param bool   $uniqueId
+     * @param             $url
+     * @param array       $arguments
+     * @param string|bool $uniqueId
      *
      * @return string
      * @throws \Exception
@@ -118,29 +85,7 @@ class Rasterizer
             }
         }
 
-        $script = $this->rootDir . $this->config['web_dir'] . DIRECTORY_SEPARATOR . $this->config['script'];
-        $output  = $this->rootDir . $this->config['web_dir'] .
-            $this->config['temp_dir'] . DIRECTORY_SEPARATOR . $uniqueId . '.' . $this->config['arguments']['format'];
-
-        $builder = new ProcessBuilder();
-        $options = array();
-
-        foreach ($this->config['phantomjs']['options'] as $name => $value) {
-            $options[] = sprintf('%s="%s"', $name, $value);
-        }
-
-        $builder
-            ->setPrefix($this->config['phantomjs']['callable'])
-            ->setArguments(
-                array_merge(
-                    $options,
-                    array($script, $url, $output),
-                    array_values(array_merge($this->config['arguments'], $arguments))
-                )
-            )
-        ;
-
-        $process = $builder->getProcess();
+        $process = $this->configHelper->buildProcess($url, $arguments, $uniqueId);
         $exitCode = $process->run();
 
         if ($exitCode != 0) {
@@ -156,10 +101,11 @@ class Rasterizer
             $this->stopwatch->stop($uniqueId);
         }
 
+        $output  = $this->configHelper->getInputFilePath($uniqueId);
         $content = file_get_contents($output);
 
         unlink($output);
 
         return $content;
     }
-} 
+}

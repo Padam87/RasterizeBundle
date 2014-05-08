@@ -7,15 +7,19 @@
 
     <parameters>
         <parameter key="padam87_rasterize.rasterizer.class">Padam87\RasterizeBundle\Rasterizer</parameter>
+        <parameter key="padam87_rasterize.config_helper.class">Padam87\RasterizeBundle\ConfigHelper</parameter>
     </parameters>
 
     <services>
-        <service id="padam87_rasterize.rasterizer" class="%padam87_rasterize.rasterizer.class%">
+        <service id="padam87_rasterize.config_helper" class="%padam87_rasterize.config_helper.class%">
             <argument>%padam87_rasterize.config%</argument>
             <argument>%kernel.root_dir%</argument>
             <argument type="service" id="router.request_context" />
             <argument>%router.request_context.base_url%</argument>
-            <argument type="service" on-invalid="null" id="debug.stopwatch" />
+        </service>
+        <service id="padam87_rasterize.rasterizer" class="%padam87_rasterize.rasterizer.class%">
+            <argument type="service" id="padam87_rasterize.config_helper" />
+            <argument type="service" id="debug.stopwatch" on-invalid="null" />
         </service>
     </services>
 </container>
