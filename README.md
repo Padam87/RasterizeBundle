@@ -29,7 +29,7 @@ $response = new Response(
 
 ### 2.1. Composer ###
 
-    "padam87/rasterize-bundle": "1.0.*",
+    "padam87/rasterize-bundle": "~1.0",
 
 ### 2.2. AppKernel ###
 
