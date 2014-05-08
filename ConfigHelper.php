@@ -110,13 +110,13 @@ class ConfigHelper
     }
 
     /**
-     * @param             $url
-     * @param array       $arguments
-     * @param string|bool $uniqueId
+     * @param        $url
+     * @param string $uniqueId
+     * @param array  $arguments
      *
      * @return \Symfony\Component\Process\Process
      */
-    public function buildProcess($url, $arguments = array(), $uniqueId = false)
+    public function buildProcess($url, $uniqueId, $arguments = array())
     {
         $script = $this->rootDir . $this->config['web_dir'] . DIRECTORY_SEPARATOR . $this->config['script'];
         $output = $this->getOutputFilePath($uniqueId);
@@ -150,7 +150,7 @@ class ConfigHelper
     }
 
     /**
-     * @param $uniqueId
+     * @param string $uniqueId
      *
      * @return string
      */

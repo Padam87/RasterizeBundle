@@ -81,7 +81,7 @@ class ConfigHelperTest extends WebTestCase
     {
         $this->assertInstanceOf(
             'Symfony\Component\Process\Process',
-            $this->configHelper->buildProcess($this->configHelper->getOutputFileUrl('e4e5k2'), array(), 'e4e5k2')
+            $this->configHelper->buildProcess($this->configHelper->getOutputFileUrl('e4e5k2'), 'e4e5k2')
         );
     }
 
@@ -105,7 +105,7 @@ class ConfigHelperTest extends WebTestCase
             )
         );
 
-        $process = $this->configHelper->buildProcess($url, array(), 'e4e5k2');
+        $process = $this->configHelper->buildProcess($url, 'e4e5k2');
 
         $this->assertContains(
             ProcessUtils::escapeArgument(sprintf('%s="%s"', '--ignore-ssl-errors', 'true')),
@@ -125,7 +125,7 @@ class ConfigHelperTest extends WebTestCase
             )
         );
 
-        $process = $this->configHelper->buildProcess($url, array(), 'e4e5k2');
+        $process = $this->configHelper->buildProcess($url, 'e4e5k2');
         $command = $process->getCommandLine();
 
         $this->assertContains(

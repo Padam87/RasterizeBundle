@@ -34,13 +34,13 @@ class Rasterizer
     /**
      * @param string $html
      * @param array  $arguments
-     * @param bool   $uniqueId
+     * @param string $uniqueId
      *
      * @return string
      */
-    public function rasterize($html, $arguments = array(), $uniqueId = false)
+    public function rasterize($html, $arguments = array(), $uniqueId = "")
     {
-        if (!$uniqueId) {
+        if ($uniqueId === "") {
             $uniqueId = uniqid("rasterize-");
         }
 
@@ -62,16 +62,17 @@ class Rasterizer
     }
 
     /**
-     * @param             $url
-     * @param array       $arguments
-     * @param string|bool $uniqueId
+     * @param        $url
+     * @param array  $arguments
+     * @param string $uniqueId
+     *
+     * @throws \Exception
      *
      * @return string
-     * @throws \Exception
      */
-    public function rasterizeUrl($url, $arguments = array(), $uniqueId = false)
+    public function rasterizeUrl($url, $arguments = array(), $uniqueId = "")
     {
-        if (!$uniqueId) {
+        if ($uniqueId === "") {
             $uniqueId = uniqid("rasterize-");
         }
 
@@ -83,7 +84,7 @@ class Rasterizer
             }
         }
 
-        $process = $this->configHelper->buildProcess($url, $arguments, $uniqueId);
+        $process = $this->configHelper->buildProcess($url, $uniqueId, $arguments);
         $exitCode = $process->run();
 
         if ($exitCode != 0) {
