@@ -2,8 +2,6 @@
 
 namespace Padam87\RasterizeBundle;
 
-use Symfony\Component\Process\ProcessBuilder;
-use Symfony\Component\Routing\RequestContext;
 use Symfony\Component\Stopwatch\Stopwatch;
 
 /**
@@ -27,7 +25,7 @@ class Rasterizer
      * @param ConfigHelper                              $configHelper
      * @param \Symfony\Component\Stopwatch\Stopwatch    $stopwatch
      */
-    public function __construct( ConfigHelper $configHelper, Stopwatch $stopwatch = null)
+    public function __construct(ConfigHelper $configHelper, Stopwatch $stopwatch = null)
     {
         $this->configHelper = $configHelper;
         $this->stopwatch    = $stopwatch;

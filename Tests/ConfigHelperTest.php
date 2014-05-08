@@ -2,8 +2,8 @@
 
 namespace Padam87\RasterizeBundle\Tests;
 
-use Padam87\RasterizeBundle\ConfigHelper;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\Process\ProcessUtils;
 
 class ConfigHelperTest extends WebTestCase
 {
@@ -95,37 +95,43 @@ class ConfigHelperTest extends WebTestCase
         $this->configHelper->setConfig(
             array_merge_recursive(
                 $this->config,
-                [
-                    'phantomjs' => [
-                        'options' => [
+                array(
+                    'phantomjs' => array(
+                        'options' => array(
                             '--ignore-ssl-errors' => true
-                        ]
-                    ]
-                ]
+                        )
+                    )
+                )
             )
         );
 
         $process = $this->configHelper->buildProcess($url, array(), 'e4e5k2');
 
-        $this->assertContains('"--ignore-ssl-errors=\"true\""', $process->getCommandLine());
+        $this->assertContains(
+            ProcessUtils::escapeArgument(sprintf('%s="%s"', '--ignore-ssl-errors', 'true')),
+            $process->getCommandLine()
+        );
 
         $this->configHelper->setConfig(
             array_merge_recursive(
                 $this->config,
-                [
-                    'phantomjs' => [
-                        'options' => [
+                array(
+                    'phantomjs' => array(
+                        'options' => array(
                             '--ignore-ssl-errors=true'
-                        ]
-                    ]
-                ]
+                        )
+                    )
+                )
             )
         );
 
         $process = $this->configHelper->buildProcess($url, array(), 'e4e5k2');
         $command = $process->getCommandLine();
 
-        $this->assertContains('"--ignore-ssl-errors=true"', $command);
-        $this->assertNotContains('"0=\"--ignore-ssl-errors=true\""', $command);
+        $this->assertContains(
+            ProcessUtils::escapeArgument('--ignore-ssl-errors=true'),
+            $process->getCommandLine()
+        );
+        $this->assertNotContains('0', $command);
     }
 }
