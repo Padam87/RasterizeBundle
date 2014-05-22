@@ -139,9 +139,24 @@ class ConfigHelperTest extends WebTestCase
         $this->assertNotContains('0', $command);
     }
 
-    protected function normalizePath($path) {
-        $patterns = array('/(\/){2,}/', '/([^\/]+\/\.{2,}\/)|(\.\/)/');
-        $replacements = array('/', '');
-        return preg_replace($patterns, $replacements, $path);
+    protected function normalizePath($path)
+    {
+        $root = ($path[0] === '/') ? '/' : '';
+
+        $segments = explode('/', trim($path, '/'));
+        $ret = array();
+
+        foreach($segments as $segment){
+            if (($segment == '.') || empty($segment)) {
+                continue;
+            }
+            if ($segment == '..') {
+                array_pop($ret);
+            } else {
+                array_push($ret, $segment);
+            }
+        }
+
+        return $root . implode('/', $ret);
     }
 }
