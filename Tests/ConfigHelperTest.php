@@ -39,8 +39,10 @@ class ConfigHelperTest extends WebTestCase
     public function isInputFilePathCorrect()
     {
         $this->assertEquals(
-            self::$kernel->getRootDir() . '/../web/bundles/padam87rasterize/temp' . DIRECTORY_SEPARATOR . 'e4e5k2.html',
-            $this->configHelper->getInputFilePath('e4e5k2')
+            $this->normalizePath(
+                self::$kernel->getRootDir() . '/../web/bundles/padam87rasterize/temp' . DIRECTORY_SEPARATOR . 'e4e5k2.html'
+            ),
+            $this->normalizePath($this->configHelper->getInputFilePath('e4e5k2'))
         );
     }
 
@@ -50,9 +52,11 @@ class ConfigHelperTest extends WebTestCase
     public function isOutputFilePathCorrect()
     {
         $this->assertEquals(
-            self::$kernel->getRootDir() . '/../web/bundles/padam87rasterize/temp' . DIRECTORY_SEPARATOR .
-                'e4e5k2.' . $this->config['arguments']['format'],
-            $this->configHelper->getOutputFilePath('e4e5k2')
+            $this->normalizePath(
+                self::$kernel->getRootDir() . '/../web/bundles/padam87rasterize/temp' . DIRECTORY_SEPARATOR .
+                'e4e5k2.' . $this->config['arguments']['format']
+            ),
+            $this->normalizePath($this->configHelper->getOutputFilePath('e4e5k2'))
         );
     }
 
@@ -133,5 +137,11 @@ class ConfigHelperTest extends WebTestCase
             $process->getCommandLine()
         );
         $this->assertNotContains('0', $command);
+    }
+
+    protected function normalizePath($path) {
+        $patterns = array('/(\/){2,}/', '/([^\/]+\/\.{2,}\/)|(\.\/)/');
+        $replacements = array('/', '');
+        return preg_replace($patterns, $replacements, $path);
     }
 }
