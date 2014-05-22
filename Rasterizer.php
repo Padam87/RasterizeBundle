@@ -100,7 +100,7 @@ class Rasterizer
             $this->stopwatch->stop($uniqueId);
         }
 
-        $output  = $this->configHelper->getInputFilePath($uniqueId);
+        $output  = $this->configHelper->getOutputFilePath($uniqueId);
         $content = file_get_contents($output);
 
         unlink($output);
