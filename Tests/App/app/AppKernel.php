@@ -24,7 +24,7 @@ class AppKernel extends Kernel
      */
     public function getCacheDir()
     {
-        return sys_get_temp_dir() . '/MyTestedBundle/cache';
+        return sys_get_temp_dir() . '/Padam87RasterizeBundle/cache';
     }
 
     /**
@@ -32,6 +32,6 @@ class AppKernel extends Kernel
      */
     public function getLogDir()
     {
-        return sys_get_temp_dir() . '/MyTestedBundle/logs';
+        return sys_get_temp_dir() . '/Padam87RasterizeBundle/logs';
     }
 }
