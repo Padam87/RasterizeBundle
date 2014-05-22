@@ -118,7 +118,7 @@ class ConfigHelper
      */
     public function buildProcess($url, $uniqueId, $arguments = array())
     {
-        $script = $this->rootDir . $this->config['web_dir'] . DIRECTORY_SEPARATOR . $this->config['script'];
+        $script = $this->getWebDir() . DIRECTORY_SEPARATOR . $this->config['script'];
         $output = $this->getOutputFilePath($uniqueId);
 
         $builder = new ProcessBuilder();
