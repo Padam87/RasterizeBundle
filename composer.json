@@ -16,9 +16,13 @@
     },
     "require": {
         "php": ">=5.3.3",
-        "symfony/framework-bundle": "~2.3"
+        "symfony/process": "~2.3",
+        "symfony/stopwatch": "~2.3",
+        "symfony/routing": "~2.3"
     },
     "require-dev": {
+        "phpunit/phpunit": "~4.2",
+        "mockery/mockery": "~0.9",
         "satooshi/php-coveralls": "dev-master"
     },
     "target-dir": "Padam87/RasterizeBundle"

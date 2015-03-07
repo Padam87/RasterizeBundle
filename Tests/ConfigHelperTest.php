@@ -2,35 +2,49 @@
 
 namespace Padam87\RasterizeBundle\Tests;
 
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Padam87\RasterizeBundle\ConfigHelper;
+use Mockery as m;
 use Symfony\Component\Process\ProcessUtils;
+use Symfony\Component\Routing\RequestContext;
 
-class ConfigHelperTest extends WebTestCase
+class ConfigHelperTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Padam87\RasterizeBundle\ConfigHelper
+     * @var string
      */
-    protected $configHelper;
+    protected $rootDir = '/';
 
     /**
      * @var array
      */
     protected $config;
 
-    public function setUp()
-    {
-        parent::createClient();
+    /**
+     * @var ConfigHelper
+     */
+    protected $configHelper;
 
-        $this->configHelper = self::$kernel->getContainer()->get('padam87_rasterize.config_helper');
-        $this->config       = self::$kernel->getContainer()->getParameter('padam87_rasterize.config');
+    protected function tearDown()
+    {
+        m::close();
     }
 
-    /**
-     * @test
-     */
-    public function isServiceRegisteredCorrectly()
+    public function setUp()
     {
-        $this->assertInstanceOf('Padam87\RasterizeBundle\ConfigHelper', $this->configHelper);
+        $this->config       = array(
+            'web_dir' => '/../web',
+            'temp_dir' => '/bundles/padam87rasterize/temp',
+            'phantomjs' => array(
+                'callable' => 'phantomjs',
+                'options' => array(),
+            ),
+            'script' => '/bundles/padam87rasterize/js/rasterize.js',
+            'arguments' => array(
+                'format' => 'pdf',
+            ),
+        );
+
+        $this->configHelper = new ConfigHelper($this->config, $this->rootDir, new RequestContext());
     }
 
     /**
@@ -40,7 +54,7 @@ class ConfigHelperTest extends WebTestCase
     {
         $this->assertEquals(
             $this->normalizePath(
-                self::$kernel->getRootDir() . '/../web/bundles/padam87rasterize/temp' . DIRECTORY_SEPARATOR . 'e4e5k2.html'
+                $this->rootDir . '/../web/bundles/padam87rasterize/temp' . DIRECTORY_SEPARATOR . 'e4e5k2.html'
             ),
             $this->normalizePath($this->configHelper->getInputFilePath('e4e5k2'))
         );
@@ -53,7 +67,7 @@ class ConfigHelperTest extends WebTestCase
     {
         $this->assertEquals(
             $this->normalizePath(
-                self::$kernel->getRootDir() . '/../web/bundles/padam87rasterize/temp' . DIRECTORY_SEPARATOR .
+                $this->rootDir . '/../web/bundles/padam87rasterize/temp' . DIRECTORY_SEPARATOR .
                 'e4e5k2.' . $this->config['arguments']['format']
             ),
             $this->normalizePath($this->configHelper->getOutputFilePath('e4e5k2'))
@@ -137,6 +151,25 @@ class ConfigHelperTest extends WebTestCase
             $process->getCommandLine()
         );
         $this->assertNotContains('0', $command);
+    }
+
+    /**
+     * @test
+     */
+    public function gettersAndSetters()
+    {
+        $this->assertSame($this->configHelper, $this->configHelper->setConfig(array()));
+        $this->assertSame(array(), $this->configHelper->getConfig());
+
+        $context = new RequestContext();
+        $this->assertSame($this->configHelper, $this->configHelper->setContext($context));
+        $this->assertSame($context, $this->configHelper->getContext());
+
+        $this->assertSame($this->configHelper, $this->configHelper->setContextBaseUrl('www.example.com'));
+        $this->assertSame('www.example.com', $this->configHelper->getContextBaseUrl());
+
+        $this->assertSame($this->configHelper, $this->configHelper->setRootDir('/test'));
+        $this->assertSame('/test', $this->configHelper->getRootDir());
     }
 
     protected function normalizePath($path)

@@ -2,6 +2,7 @@
 
 namespace Padam87\RasterizeBundle;
 
+use Symfony\Component\Process\Process;
 use Symfony\Component\Process\ProcessBuilder;
 use Symfony\Component\Routing\RequestContext;
 
@@ -18,7 +19,7 @@ class ConfigHelper
     protected $rootDir;
 
     /**
-     * @var \Symfony\Component\Routing\RequestContext
+     * @var RequestContext
      */
     protected $context;
 
@@ -28,20 +29,16 @@ class ConfigHelper
     protected $contextBaseUrl;
 
     /**
-     * @param array                                     $config
-     * @param string                                    $rootDir
-     * @param \Symfony\Component\Routing\RequestContext $context
-     * @param string                                    $contextBaseUrl
+     * @param array          $config
+     * @param string         $rootDir
+     * @param RequestContext $context
+     * @param string         $contextBaseUrl
      */
-    public function __construct(
-        array $config,
-        $rootDir,
-        RequestContext $context,
-        $contextBaseUrl
-    ) {
-        $this->config         = $config;
-        $this->rootDir        = $rootDir;
-        $this->context        = $context;
+    public function __construct(array $config, $rootDir, RequestContext $context, $contextBaseUrl = "")
+    {
+        $this->config = $config;
+        $this->rootDir = $rootDir;
+        $this->context = $context;
         $this->contextBaseUrl = $contextBaseUrl;
     }
 
@@ -55,10 +52,14 @@ class ConfigHelper
 
     /**
      * @param array $config
+     *
+     * @return $this
      */
     public function setConfig($config)
     {
         $this->config = $config;
+
+        return $this;
     }
 
     /**
@@ -71,14 +72,18 @@ class ConfigHelper
 
     /**
      * @param string $rootDir
+     *
+     * @return $this
      */
     public function setRootDir($rootDir)
     {
         $this->rootDir = $rootDir;
+
+        return $this;
     }
 
     /**
-     * @return \Symfony\Component\Routing\RequestContext
+     * @return RequestContext
      */
     public function getContext()
     {
@@ -86,11 +91,15 @@ class ConfigHelper
     }
 
     /**
-     * @param \Symfony\Component\Routing\RequestContext $context
+     * @param RequestContext $context
+     *
+     * @return $this
      */
-    public function setContext($context)
+    public function setContext(RequestContext $context)
     {
         $this->context = $context;
+
+        return $this;
     }
 
     /**
@@ -103,18 +112,22 @@ class ConfigHelper
 
     /**
      * @param string $contextBaseUrl
+     *
+     * @return $this
      */
     public function setContextBaseUrl($contextBaseUrl)
     {
         $this->contextBaseUrl = $contextBaseUrl;
+
+        return $this;
     }
 
     /**
-     * @param        $url
+     * @param string $url
      * @param string $uniqueId
      * @param array  $arguments
      *
-     * @return \Symfony\Component\Process\Process
+     * @return Process
      */
     public function buildProcess($url, $uniqueId, $arguments = array())
     {
