@@ -4,11 +4,6 @@ namespace Padam87\RasterizeBundle;
 
 use Symfony\Component\Stopwatch\Stopwatch;
 
-/**
- * Class Rasterizer
- *
- * @package Padam87\RasterizeBundle
- */
 class Rasterizer
 {
     /**
@@ -17,13 +12,13 @@ class Rasterizer
     protected $configHelper;
 
     /**
-     * @var \Symfony\Component\Stopwatch\Stopwatch
+     * @var Stopwatch
      */
     protected $stopwatch;
 
     /**
-     * @param ConfigHelper                              $configHelper
-     * @param \Symfony\Component\Stopwatch\Stopwatch    $stopwatch
+     * @param ConfigHelper $configHelper
+     * @param Stopwatch    $stopwatch
      */
     public function __construct(ConfigHelper $configHelper, Stopwatch $stopwatch = null)
     {
