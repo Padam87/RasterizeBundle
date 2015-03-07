@@ -3,6 +3,7 @@
 [![Coverage Status](https://coveralls.io/repos/Padam87/RasterizeBundle/badge.png)](https://coveralls.io/r/Padam87/RasterizeBundle)
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/7e2ecf7a-40d7-41f4-9103-a99593c435d2/mini.png)](https://insight.sensiolabs.com/projects/7e2ecf7a-40d7-41f4-9103-a99593c435d2)
 
+[![License](https://poser.pugx.org/padam87/rasterize-bundle/license.png)](https://packagist.org/packages/padam87/rasterize-bundle)
 [![Latest Stable Version](https://poser.pugx.org/padam87/rasterize-bundle/v/stable.png)](https://packagist.org/packages/padam87/rasterize-bundle)
 [![Latest Unstable Version](https://poser.pugx.org/padam87/rasterize-bundle/v/unstable.png)](https://packagist.org/packages/padam87/rasterize-bundle)
 [![Total Downloads](https://poser.pugx.org/padam87/rasterize-bundle/downloads.png)](https://packagist.org/packages/padam87/rasterize-bundle)
