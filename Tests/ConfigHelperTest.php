@@ -126,7 +126,7 @@ class ConfigHelperTest extends \PHPUnit_Framework_TestCase
         $process = $this->configHelper->buildProcess($url, 'e4e5k2');
 
         $this->assertContains(
-            ProcessUtils::escapeArgument(sprintf('%s="%s"', '--ignore-ssl-errors', 'true')),
+            ProcessUtils::escapeArgument(sprintf('%s=%s', '--ignore-ssl-errors', 'true')),
             $process->getCommandLine()
         );
 

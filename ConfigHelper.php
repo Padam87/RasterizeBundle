@@ -217,7 +217,7 @@ class ConfigHelper
                 if (is_bool($value)) {
                     $value = ($value) ? 'true' : 'false';
                 }
-                $options[] = sprintf('%s="%s"', $name, $value);
+                $options[] = sprintf('%s=%s', $name, $value);
             }
         }
 
