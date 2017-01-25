@@ -25,7 +25,7 @@ $response = new Response(
 );
 ```
 
-[Installation](Resources/docs/install.md)
+[Installation](Resources/docs/configuration_reference.md)
 
 [Configuration reference](Resources/docs/configuration_reference.md)
 

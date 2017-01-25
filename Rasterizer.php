@@ -2,6 +2,7 @@
 
 namespace Padam87\RasterizeBundle;
 
+use Symfony\Component\Process\InputStream;
 use Symfony\Component\Stopwatch\Stopwatch;
 
 class Rasterizer
@@ -29,77 +30,25 @@ class Rasterizer
     /**
      * @param string $html
      * @param array  $arguments
-     * @param string $uniqueId
      *
      * @return string
      */
-    public function rasterize($html, $arguments = array(), $uniqueId = "")
+    public function rasterize($html, $arguments = array())
     {
-        if ($uniqueId === "") {
-            $uniqueId = uniqid("rasterize-");
-        }
-
         if ($this->stopwatch instanceof Stopwatch) {
-            $this->stopwatch->start($uniqueId);
+            $this->stopwatch->start('rasterizer');
         }
 
-        $input = $this->configHelper->getInputFilePath($uniqueId);
+        $input = new InputStream();
 
-        $fh = fopen($input, 'w');
-        fwrite($fh, $html);
-        fclose($fh);
+        $process = $this->configHelper->buildProcess($input, $arguments);
+        $process->start();
 
-        $output = $this->rasterizeUrl($this->configHelper->getOutputFileUrl($uniqueId), $arguments, $uniqueId);
+        $input->write($html);
+        $input->close();
 
-        unlink($input);
+        $process->wait();
 
-        return $output;
-    }
-
-    /**
-     * @param        $url
-     * @param array  $arguments
-     * @param string $uniqueId
-     *
-     * @throws \Exception
-     *
-     * @return string
-     */
-    public function rasterizeUrl($url, $arguments = array(), $uniqueId = "")
-    {
-        if ($uniqueId === "") {
-            $uniqueId = uniqid("rasterize-");
-        }
-
-        if ($this->stopwatch instanceof Stopwatch) {
-            if ($this->stopwatch->isStarted($uniqueId)) {
-                $this->stopwatch->lap($uniqueId);
-            } else {
-                $this->stopwatch->start($uniqueId);
-            }
-        }
-
-        $process = $this->configHelper->buildProcess($url, $uniqueId, $arguments);
-        $exitCode = $process->run();
-
-        if ($exitCode != 0) {
-            throw new \Exception(sprintf(
-                "Rasterize script failed.\nCommandLine: %s\nExitCode: %d\nErrorOutput: %s",
-                $process->getCommandLine(),
-                $process->getExitCode(),
-                $process->getErrorOutput()
-            ));
-        }
-
-        if ($this->stopwatch instanceof Stopwatch) {
-            $this->stopwatch->stop($uniqueId);
-        }
-
-        $output  = $this->configHelper->getOutputFilePath($uniqueId);
-        $content = file_get_contents($output);
-
-        unlink($output);
-
-        return $content;
+        return $process->getOutput();
     }
 }
