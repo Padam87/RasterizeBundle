@@ -14,18 +14,11 @@ class ConfigHelper
     protected $config;
 
     /**
-     * @var string
-     */
-    protected $rootDir;
-
-    /**
      * @param array  $config
-     * @param string $rootDir
      */
-    public function __construct(array $config, $rootDir)
+    public function __construct(array $config)
     {
         $this->config = $config;
-        $this->rootDir = $rootDir;
     }
 
     /**

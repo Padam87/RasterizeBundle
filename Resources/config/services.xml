@@ -13,9 +13,6 @@
     <services>
         <service id="padam87_rasterize.config_helper" class="%padam87_rasterize.config_helper.class%">
             <argument>%padam87_rasterize.config%</argument>
-            <argument>%kernel.root_dir%</argument>
-            <argument type="service" id="router.request_context" />
-            <argument>%router.request_context.base_url%</argument>
         </service>
         <service id="padam87_rasterize.rasterizer" class="%padam87_rasterize.rasterizer.class%">
             <argument type="service" id="padam87_rasterize.config_helper" />

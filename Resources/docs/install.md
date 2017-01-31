@@ -2,15 +2,17 @@
 
 ### Composer ###
 
-    "padam87/rasterize-bundle": "~1.0",
+`composer require padam87/rasterize-bundle`
 
 ### AppKernel ###
 
-    $bundles = array(
-        ...
-        new Padam87\RasterizeBundle\Padam87RasterizeBundle(),
-    );
+```php
+$bundles = array(
+    ...
+    new Padam87\RasterizeBundle\Padam87RasterizeBundle(),
+);
+```
 
 ### Install assets ###
 
-    php app/console assets:install
+`php app/console assets:install`

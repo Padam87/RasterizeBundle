@@ -22,6 +22,7 @@ class Configuration implements ConfigurationInterface
                     ->children()
                         ->scalarNode('callable')->defaultValue('phantomjs')->end()
                         ->arrayNode('options')
+                            ->info('http://phantomjs.org/api/command-line.html')
                             ->defaultValue(
                                 [
                                     '--output-encoding' => $this->isWin() ? 'ISO-8859-1' : 'UTF-8',

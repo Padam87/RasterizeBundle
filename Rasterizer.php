@@ -24,7 +24,7 @@ class Rasterizer
     public function __construct(ConfigHelper $configHelper, Stopwatch $stopwatch = null)
     {
         $this->configHelper = $configHelper;
-        $this->stopwatch    = $stopwatch;
+        $this->stopwatch = $stopwatch;
     }
 
     /**
@@ -48,6 +48,10 @@ class Rasterizer
         $input->close();
 
         $process->wait();
+
+        if ($this->stopwatch instanceof Stopwatch) {
+            $this->stopwatch->stop('rasterizer');
+        }
 
         return $process->getOutput();
     }
