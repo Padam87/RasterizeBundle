@@ -43,7 +43,11 @@ class ConfigHelperTest extends \PHPUnit_Framework_TestCase
         $process = $configHelper->buildProcess(new InputStream());
 
         $this->assertInstanceOf(Process::class, $process);
-        $this->assertEquals('"phantomjs" "/bundles/padam87rasterize/js/rasterize.js" "pdf"', $process->getCommandLine());
+
+        $this->assertEquals(
+            'phantomjs /bundles/padam87rasterize/js/rasterize.js pdf',
+            str_replace(['"', "'"], '', $process->getCommandLine())
+        );
     }
 
     /**

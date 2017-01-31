@@ -4,15 +4,10 @@ php:
   - 5.5
   - 7.0
 
-env:
-  - SYMFONY_VERSION=2.8.*
-  - SYMFONY_VERSION=3.0.*
-
 matrix:
   fast_finish: true
 
 before_script:
-  - composer require symfony/symfony:${SYMFONY_VERSION} --no-update
   - composer update --dev
 
 script: phpunit
