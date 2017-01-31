@@ -17,38 +17,50 @@ class Configuration implements ConfigurationInterface
 
         $rootNode
             ->children()
-                ->scalarNode('web_dir')
-                    ->defaultValue('/../web')
-                    ->info('Temp dir location related to %kernel.root_dir%.')
-                ->end()
-                ->scalarNode('temp_dir')
-                    ->defaultValue('/bundles/padam87rasterize/temp')
-                    ->info('Temp dir location related to web dir. Must be in a location accessible by the web server.')
-                ->end()
                 ->arrayNode('phantomjs')
                     ->addDefaultsIfNotSet()
                     ->children()
                         ->scalarNode('callable')->defaultValue('phantomjs')->end()
                         ->arrayNode('options')
-                            ->info("https://github.com/ariya/phantomjs/wiki/API-Reference#wiki-command-line-options")
+                            ->info('http://phantomjs.org/api/command-line.html')
+                            ->defaultValue(
+                                [
+                                    '--output-encoding' => $this->isWin() ? 'ISO-8859-1' : 'UTF-8',
+                                ]
+                            )
                             ->normalizeKeys(false)
+                            ->beforeNormalization()
+                                ->ifTrue(function ($v) {
+                                    return !isset($v['--output-encoding']);
+                                })
+                                ->then(function ($v) {
+                                    return array_merge(
+                                        [
+                                            '--output-encoding' => $this->isWin() ? 'ISO-8859-1' : 'UTF-8',
+                                        ],
+                                        $v
+                                    );
+                            })
+                            ->end()
                             ->prototype('scalar')->end()
                         ->end()
                     ->end()
                 ->end()
                 ->scalarNode('script')
-                    ->defaultValue('/bundles/padam87rasterize/js/rasterize.js')->info('Relative to web dir')
+                    ->defaultValue('../web/bundles/padam87rasterize/js/rasterize.js')->info('Relative to root dir')
                 ->end()
                 ->arrayNode('arguments')
-                    ->defaultValue(array(
-                        'format' => 'pdf'
-                    ))
+                    ->defaultValue(
+                        [
+                            'format' => 'pdf'
+                        ]
+                    )
                     ->beforeNormalization()
                         ->ifTrue(function ($v) {
                             return !isset($v['format']);
                         })
                         ->then(function ($v) {
-                            return array_merge(array('format' => 'pdf'), $v);
+                            return array_merge(['format' => 'pdf'], $v);
                         })
                     ->end()
                     ->prototype('scalar')->end()
@@ -57,5 +69,10 @@ class Configuration implements ConfigurationInterface
         ;
 
         return $treeBuilder;
+    }
+
+    private function isWin()
+    {
+        return strtoupper(substr(PHP_OS, 0, 3)) === 'WIN';
     }
 }

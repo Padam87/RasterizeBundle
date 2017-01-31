@@ -2,9 +2,9 @@
 
 namespace Padam87\RasterizeBundle;
 
+use Symfony\Component\Process\InputStream;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Process\ProcessBuilder;
-use Symfony\Component\Routing\RequestContext;
 
 class ConfigHelper
 {
@@ -14,193 +14,35 @@ class ConfigHelper
     protected $config;
 
     /**
-     * @var string
+     * @param array  $config
      */
-    protected $rootDir;
-
-    /**
-     * @var RequestContext
-     */
-    protected $context;
-
-    /**
-     * @var string
-     */
-    protected $contextBaseUrl;
-
-    /**
-     * @param array          $config
-     * @param string         $rootDir
-     * @param RequestContext $context
-     * @param string         $contextBaseUrl
-     */
-    public function __construct(array $config, $rootDir, RequestContext $context, $contextBaseUrl = "")
+    public function __construct(array $config)
     {
         $this->config = $config;
-        $this->rootDir = $rootDir;
-        $this->context = $context;
-        $this->contextBaseUrl = $contextBaseUrl;
     }
 
     /**
-     * @return array
-     */
-    public function getConfig()
-    {
-        return $this->config;
-    }
-
-    /**
-     * @param array $config
-     *
-     * @return $this
-     */
-    public function setConfig($config)
-    {
-        $this->config = $config;
-
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getRootDir()
-    {
-        return $this->rootDir;
-    }
-
-    /**
-     * @param string $rootDir
-     *
-     * @return $this
-     */
-    public function setRootDir($rootDir)
-    {
-        $this->rootDir = $rootDir;
-
-        return $this;
-    }
-
-    /**
-     * @return RequestContext
-     */
-    public function getContext()
-    {
-        return $this->context;
-    }
-
-    /**
-     * @param RequestContext $context
-     *
-     * @return $this
-     */
-    public function setContext(RequestContext $context)
-    {
-        $this->context = $context;
-
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getContextBaseUrl()
-    {
-        return $this->contextBaseUrl;
-    }
-
-    /**
-     * @param string $contextBaseUrl
-     *
-     * @return $this
-     */
-    public function setContextBaseUrl($contextBaseUrl)
-    {
-        $this->contextBaseUrl = $contextBaseUrl;
-
-        return $this;
-    }
-
-    /**
-     * @param string $url
-     * @param string $uniqueId
-     * @param array  $arguments
+     * @param InputStream $input
+     * @param array       $arguments
      *
      * @return Process
      */
-    public function buildProcess($url, $uniqueId, $arguments = array())
+    public function buildProcess($input, $arguments = array())
     {
-        $script = $this->getWebDir() . DIRECTORY_SEPARATOR . $this->config['script'];
-        $output = $this->getOutputFilePath($uniqueId);
-
         $builder = new ProcessBuilder();
-
         $builder
             ->setPrefix($this->config['phantomjs']['callable'])
             ->setArguments(
                 array_merge(
                     $this->processPhantomjsOptions(),
-                    array($script, $url, $output),
+                    [$this->config['script']],
                     array_values(array_merge($this->config['arguments'], $arguments))
                 )
             )
+            ->setInput($input)
         ;
 
         return $builder->getProcess();
-    }
-
-    /**
-     * @param string $uniqueId
-     *
-     * @return string
-     */
-    public function getInputFilePath($uniqueId)
-    {
-        return $this->getTempDir() . DIRECTORY_SEPARATOR . $uniqueId . '.html';
-    }
-
-    /**
-     * @param string $uniqueId
-     *
-     * @return string
-     */
-    public function getOutputFilePath($uniqueId)
-    {
-        return $this->getTempDir() . DIRECTORY_SEPARATOR . $uniqueId . '.' . $this->config['arguments']['format'];
-    }
-
-    /**
-     * @param $uniqueId
-     *
-     * @return string
-     */
-    public function getOutputFileUrl($uniqueId)
-    {
-        return sprintf(
-            "%s://%s%s%s/%s.html",
-            $this->context->getScheme(),
-            $this->context->getHost(),
-            $this->contextBaseUrl === "" ? $this->context->getBaseUrl() : $this->contextBaseUrl,
-            $this->config['temp_dir'],
-            $uniqueId
-        );
-    }
-
-    /**
-     * @return string
-     */
-    protected function getTempDir()
-    {
-        return $this->getWebDir() . $this->config['temp_dir'];
-    }
-
-    /**
-     * @return string
-     */
-    protected function getWebDir()
-    {
-        return $this->rootDir . $this->config['web_dir'];
     }
 
     /**
