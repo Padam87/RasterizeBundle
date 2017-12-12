@@ -14,9 +14,10 @@
         <service id="padam87_rasterize.config_helper" class="%padam87_rasterize.config_helper.class%">
             <argument>%padam87_rasterize.config%</argument>
         </service>
-        <service id="padam87_rasterize.rasterizer" class="%padam87_rasterize.rasterizer.class%">
+        <service id="padam87_rasterize.rasterizer" class="%padam87_rasterize.rasterizer.class%" public="true">
             <argument type="service" id="padam87_rasterize.config_helper" />
             <argument type="service" id="debug.stopwatch" on-invalid="null" />
+            <argument>%kernel.environment%</argument>
         </service>
     </services>
 </container>
