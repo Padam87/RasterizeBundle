@@ -4,7 +4,6 @@ namespace Padam87\RasterizeBundle;
 
 use Symfony\Component\Process\InputStream;
 use Symfony\Component\Process\Process;
-use Symfony\Component\Process\ProcessBuilder;
 
 class ConfigHelper
 {
