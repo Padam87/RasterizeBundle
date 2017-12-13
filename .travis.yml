@@ -9,7 +9,7 @@ matrix:
 before_script:
   - composer update --dev
 
-script: phpunit
+script: vendor/bin/phpunit
 
 after_script:
   - php vendor/bin/coveralls -v
