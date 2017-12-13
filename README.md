@@ -29,9 +29,12 @@ $response = new Response(
 
 [Configuration reference](Resources/docs/configuration_reference.md)
 
+**Providers**
+- [Puppeteer](Resources/docs/provider/puppeteer.md)
+- [PhantomJS](Resources/docs/provider/phantomjs.md)
+- [Other](Resources/docs/provider/other.md)
+
 **How to...**
  - [pass arguments to the javascript file?](Resources/docs/how_to_pass_arguments.md)
- - [ignore SSL errors?](Resources/docs/how_to_ignore_ssl_errors.md)
-
 
 

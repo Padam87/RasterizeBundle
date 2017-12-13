@@ -1,8 +1,7 @@
 language: php
 
 php:
-  - 5.5
-  - 7.0
+  - 7.1
 
 matrix:
   fast_finish: true
@@ -10,7 +9,7 @@ matrix:
 before_script:
   - composer update --dev
 
-script: phpunit
+script: vendor/bin/phpunit
 
 after_script:
   - php vendor/bin/coveralls -v
