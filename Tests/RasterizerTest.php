@@ -52,7 +52,7 @@ class RasterizerTest extends \PHPUnit_Framework_TestCase
         $this->process->expects($this->once())->method('wait');
         $this->process->expects($this->once())->method('getOutput')->willReturn('pdfcontent');
 
-        $rasterizer = new Rasterizer($this->configHelper, $this->stopwatch);
+        $rasterizer = new Rasterizer($this->configHelper, $this->stopwatch, 'test');
 
         $this->assertSame('pdfcontent', $rasterizer->rasterize('<html></html>'));
     }

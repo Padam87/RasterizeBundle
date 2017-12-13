@@ -18,13 +18,20 @@ class Rasterizer
     protected $stopwatch;
 
     /**
+     * @var array
+     */
+    protected $environment;
+
+    /**
      * @param ConfigHelper $configHelper
      * @param Stopwatch    $stopwatch
+     * @param string       $environment
      */
-    public function __construct(ConfigHelper $configHelper, Stopwatch $stopwatch = null)
+    public function __construct(ConfigHelper $configHelper, Stopwatch $stopwatch = null, $environment)
     {
         $this->configHelper = $configHelper;
         $this->stopwatch = $stopwatch;
+        $this->environment = [ $environment ];
     }
 
     /**
@@ -42,7 +49,7 @@ class Rasterizer
         $input = new InputStream();
 
         $process = $this->configHelper->buildProcess($input, $arguments);
-        $process->start();
+        $process->start(null, $this->environment);
 
         $input->write($html);
         $input->close();

@@ -4,7 +4,6 @@ namespace Padam87\RasterizeBundle;
 
 use Symfony\Component\Process\InputStream;
 use Symfony\Component\Process\Process;
-use Symfony\Component\Process\ProcessBuilder;
 
 class ConfigHelper
 {
@@ -29,20 +28,17 @@ class ConfigHelper
      */
     public function buildProcess($input, $arguments = array())
     {
-        $builder = new ProcessBuilder();
-        $builder
-            ->setPrefix($this->config['phantomjs']['callable'])
-            ->setArguments(
-                array_merge(
-                    $this->processPhantomjsOptions(),
-                    [$this->config['script']],
-                    array_values(array_merge($this->config['arguments'], $arguments))
-                )
-            )
-            ->setInput($input)
-        ;
+        $process = new Process(
+            array_merge(
+                [$this->config['phantomjs']['callable']],
+                $this->processPhantomjsOptions(),
+                [ $this->config['script'] ],
+                array_values(array_merge($this->config['arguments'], $arguments))
+            ),
+            null, [], $input
+        );
 
-        return $builder->getProcess();
+        return $process;
     }
 
     /**
