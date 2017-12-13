@@ -4,11 +4,12 @@ namespace Padam87\RasterizeBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
+use Symfony\Component\HttpKernel\Kernel;
 
 class Configuration implements ConfigurationInterface
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getConfigTreeBuilder()
     {
@@ -17,37 +18,15 @@ class Configuration implements ConfigurationInterface
 
         $rootNode
             ->children()
-                ->arrayNode('phantomjs')
+                ->arrayNode('script')
                     ->addDefaultsIfNotSet()
                     ->children()
-                        ->scalarNode('callable')->defaultValue('phantomjs')->end()
-                        ->arrayNode('options')
-                            ->info('http://phantomjs.org/api/command-line.html')
-                            ->defaultValue(
-                                [
-                                    '--output-encoding' => $this->isWin() ? 'ISO-8859-1' : 'UTF-8',
-                                ]
-                            )
-                            ->normalizeKeys(false)
-                            ->beforeNormalization()
-                                ->ifTrue(function ($v) {
-                                    return !isset($v['--output-encoding']);
-                                })
-                                ->then(function ($v) {
-                                    return array_merge(
-                                        [
-                                            '--output-encoding' => $this->isWin() ? 'ISO-8859-1' : 'UTF-8',
-                                        ],
-                                        $v
-                                    );
-                            })
-                            ->end()
-                            ->prototype('scalar')->end()
+                        ->scalarNode('callable')->defaultValue('node')->end()
+                        ->scalarNode('path')
+                            ->defaultValue($this->getAssetsDir() . DIRECTORY_SEPARATOR . 'rasterize.js')
+                            ->info('Relative to project dir')
                         ->end()
                     ->end()
-                ->end()
-                ->scalarNode('script')
-                    ->defaultValue('../web/bundles/padam87rasterize/js/rasterize.js')->info('Relative to root dir')
                 ->end()
                 ->arrayNode('arguments')
                     ->defaultValue(
@@ -71,8 +50,13 @@ class Configuration implements ConfigurationInterface
         return $treeBuilder;
     }
 
-    private function isWin()
+    private function getAssetsDir()
     {
-        return strtoupper(substr(PHP_OS, 0, 3)) === 'WIN';
+        switch (Kernel::MAJOR_VERSION) {
+            case 4:
+                return 'assets';
+            default:
+                return 'web';
+        }
     }
 }

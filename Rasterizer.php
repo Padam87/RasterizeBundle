@@ -7,40 +7,16 @@ use Symfony\Component\Stopwatch\Stopwatch;
 
 class Rasterizer
 {
-    /**
-     * @var ConfigHelper
-     */
     protected $configHelper;
-
-    /**
-     * @var Stopwatch
-     */
     protected $stopwatch;
 
-    /**
-     * @var array
-     */
-    protected $environment;
-
-    /**
-     * @param ConfigHelper $configHelper
-     * @param Stopwatch    $stopwatch
-     * @param string       $environment
-     */
-    public function __construct(ConfigHelper $configHelper, Stopwatch $stopwatch = null, $environment)
+    public function __construct(ConfigHelper $configHelper, Stopwatch $stopwatch = null)
     {
         $this->configHelper = $configHelper;
         $this->stopwatch = $stopwatch;
-        $this->environment = [ $environment ];
     }
 
-    /**
-     * @param string $html
-     * @param array  $arguments
-     *
-     * @return string
-     */
-    public function rasterize($html, $arguments = array())
+    public function rasterize(string $html, $arguments = []): string
     {
         if ($this->stopwatch instanceof Stopwatch) {
             $this->stopwatch->start('rasterizer');
@@ -49,7 +25,7 @@ class Rasterizer
         $input = new InputStream();
 
         $process = $this->configHelper->buildProcess($input, $arguments);
-        $process->start(null, $this->environment);
+        $process->start(null, []);
 
         $input->write($html);
         $input->close();

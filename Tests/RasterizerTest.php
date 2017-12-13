@@ -4,24 +4,16 @@ namespace Padam87\RasterizeBundle\Tests;
 
 use Mockery as m;
 use Mockery\MockInterface;
+use Padam87\RasterizeBundle\ConfigHelper;
 use Padam87\RasterizeBundle\Rasterizer;
+use Symfony\Component\Process\Process;
+use Symfony\Component\Stopwatch\Stopwatch;
 
 class RasterizerTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @var MockInterface
-     */
-    protected $configHelper;
-
-    /**
-     * @var MockInterface
-     */
-    protected $stopwatch;
-
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $process;
+    private $configHelper;
+    private $stopwatch;
+    private $process;
 
     protected function tearDown()
     {
@@ -30,12 +22,9 @@ class RasterizerTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->configHelper = m::mock('Padam87\RasterizeBundle\ConfigHelper');
-        $this->stopwatch = m::mock('Symfony\Component\Stopwatch\Stopwatch');
-        $this->process = $this->getMockBuilder('Symfony\Component\Process\Process')
-            ->disableOriginalConstructor()
-            ->getMock()
-        ; // Mock process with PHPUnit, mockery has a bug here @see: https://github.com/padraic/mockery/issues/355
+        $this->configHelper = m::mock(ConfigHelper::class);
+        $this->stopwatch = m::mock(Stopwatch::class);
+        $this->process = m::mock(Process::class);
     }
 
     /**
@@ -48,11 +37,11 @@ class RasterizerTest extends \PHPUnit_Framework_TestCase
 
         $this->configHelper->shouldReceive('buildProcess')->once()->andReturn($this->process);
 
-        $this->process->expects($this->once())->method('start');
-        $this->process->expects($this->once())->method('wait');
-        $this->process->expects($this->once())->method('getOutput')->willReturn('pdfcontent');
+        $this->process->shouldReceive('start');
+        $this->process->shouldReceive('wait');
+        $this->process->shouldReceive('getOutput')->andReturn('pdfcontent');
 
-        $rasterizer = new Rasterizer($this->configHelper, $this->stopwatch, 'test');
+        $rasterizer = new Rasterizer($this->configHelper, $this->stopwatch);
 
         $this->assertSame('pdfcontent', $rasterizer->rasterize('<html></html>'));
     }

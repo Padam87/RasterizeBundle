@@ -22,16 +22,15 @@ class ConfigHelperTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->config       = array(
-            'phantomjs' => array(
-                'callable' => 'phantomjs',
-                'options' => array(),
-            ),
-            'script' => '/bundles/padam87rasterize/js/rasterize.js',
-            'arguments' => array(
-                'format' => 'pdf',
-            ),
-        );
+        $this->config = [
+            'script' => [
+                'callable' => 'node',
+                'path' => 'assets' . DIRECTORY_SEPARATOR . 'rasterize.js',
+            ],
+            'arguments' => [
+                'format' => 'pdf'
+            ]
+        ];
     }
 
     /**
@@ -39,34 +38,14 @@ class ConfigHelperTest extends \PHPUnit_Framework_TestCase
      */
     public function isTheProcessBuilt()
     {
-        $configHelper = new ConfigHelper($this->config);
+        $configHelper = new ConfigHelper(__DIR__, $this->config);
         $process = $configHelper->buildProcess(new InputStream());
 
         $this->assertInstanceOf(Process::class, $process);
 
         $this->assertEquals(
-            'phantomjs /bundles/padam87rasterize/js/rasterize.js pdf',
+            implode(DIRECTORY_SEPARATOR, ['node ' . __DIR__, 'assets', 'rasterize.js']) . ' pdf',
             str_replace(['"', "'"], '', $process->getCommandLine())
         );
-    }
-
-    /**
-     * @test
-     */
-    public function arePhantomjsOptionsHandled()
-    {
-        $this->config['phantomjs']['options'] = [
-            '--ignore-ssl-errors' => true
-        ];
-
-        $configHelper = new ConfigHelper($this->config);
-
-        $process = $configHelper->buildProcess(new InputStream());
-
-        $this->assertContains(
-            ProcessUtils::escapeArgument(sprintf('%s=%s', '--ignore-ssl-errors', 'true')),
-            $process->getCommandLine()
-        );
-        $this->assertNotContains('0', $process->getCommandLine());
     }
 }

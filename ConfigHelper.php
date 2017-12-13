@@ -7,58 +7,30 @@ use Symfony\Component\Process\Process;
 
 class ConfigHelper
 {
-    /**
-     * @var array
-     */
-    protected $config;
+    private $config;
+    private $projectDir;
 
-    /**
-     * @param array  $config
-     */
-    public function __construct(array $config)
+    public function __construct(string $projectDir, array $config)
     {
         $this->config = $config;
+        $this->projectDir = $projectDir;
     }
 
-    /**
-     * @param InputStream $input
-     * @param array       $arguments
-     *
-     * @return Process
-     */
-    public function buildProcess($input, $arguments = array())
+    public function buildProcess(InputStream $input, array $arguments = []): Process
     {
         $process = new Process(
             array_merge(
-                [$this->config['phantomjs']['callable']],
-                $this->processPhantomjsOptions(),
-                [ $this->config['script'] ],
+                [
+                    $this->config['script']['callable'],
+                    $this->projectDir . DIRECTORY_SEPARATOR . $this->config['script']['path']
+                ],
                 array_values(array_merge($this->config['arguments'], $arguments))
             ),
-            null, [], $input
+            null,
+            [],
+            $input
         );
 
         return $process;
-    }
-
-    /**
-     * @return array
-     */
-    protected function processPhantomjsOptions()
-    {
-        $options = array();
-
-        foreach ($this->config['phantomjs']['options'] as $name => $value) {
-            if (is_numeric($name)) {
-                $options[] = $value;
-            } else {
-                if (is_bool($value)) {
-                    $value = ($value) ? 'true' : 'false';
-                }
-                $options[] = sprintf('%s=%s', $name, $value);
-            }
-        }
-
-        return $options;
     }
 }
