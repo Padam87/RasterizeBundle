@@ -13,6 +13,8 @@ $bundles = array(
 );
 ```
 
-### Install assets ###
+### Chose a provider ###
 
-`php app/console assets:install`
+- [Puppeteer](provider/puppeteer.md)
+- [PhantomJS](provider/phantomjs.md)
+- [Other](provider/other.md)
