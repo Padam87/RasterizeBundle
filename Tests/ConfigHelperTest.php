@@ -4,11 +4,12 @@ namespace Padam87\RasterizeBundle\Tests;
 
 use Padam87\RasterizeBundle\ConfigHelper;
 use Mockery as m;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Process\InputStream;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Process\ProcessUtils;
 
-class ConfigHelperTest extends \PHPUnit_Framework_TestCase
+class ConfigHelperTest extends TestCase
 {
     /**
      * @var array

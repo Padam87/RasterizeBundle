@@ -6,10 +6,11 @@ use Mockery as m;
 use Mockery\MockInterface;
 use Padam87\RasterizeBundle\ConfigHelper;
 use Padam87\RasterizeBundle\Rasterizer;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Stopwatch\Stopwatch;
 
-class RasterizerTest extends \PHPUnit_Framework_TestCase
+class RasterizerTest extends TestCase
 {
     private $configHelper;
     private $stopwatch;
