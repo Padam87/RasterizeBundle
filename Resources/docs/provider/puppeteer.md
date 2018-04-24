@@ -46,3 +46,10 @@ const format = args[2];
     await browser.close();
 })();
 ```
+
+# Test puppeteer
+`echo "test text" | node rasterize.js pdf`
+
+If anything other than a PDF comes out, you might have problems.
+
+A common problem is that chrome is missing. In that case please check out puppeteer issues, eg: https://github.com/GoogleChrome/puppeteer/issues/1602
