@@ -36,5 +36,7 @@ $response = new Response(
 
 **How to...**
  - [pass arguments to the javascript file?](Resources/docs/how_to_pass_arguments.md)
+ - [fully customize the Symfony Process?](Resources/docs/how_to_customize_the_process.md)
+
 
 
