@@ -9,4 +9,6 @@ padam87_rasterize:
         path: web\rasterize.js # Relative to project dir
     arguments:
         format: pdf # Default, will always be added, even if you remove it from here.
+    env_vars: # Empty by default
+        # NODE_PATH: /path/to/node
 ```

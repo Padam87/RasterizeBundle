@@ -44,6 +44,9 @@ class Configuration implements ConfigurationInterface
                     ->end()
                     ->prototype('scalar')->end()
                 ->end()
+                ->arrayNode('env_vars')
+                    ->prototype('scalar')->end()
+                ->end()
             ->end()
         ;
 
