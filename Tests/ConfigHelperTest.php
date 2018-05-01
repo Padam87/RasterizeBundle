@@ -30,6 +30,9 @@ class ConfigHelperTest extends TestCase
             ],
             'arguments' => [
                 'format' => 'pdf'
+            ],
+            'env_vars' => [
+                'NODE_PATH' => '/usr/local/lib/node_modules',
             ]
         ];
     }
@@ -48,5 +51,32 @@ class ConfigHelperTest extends TestCase
             implode(DIRECTORY_SEPARATOR, ['node ' . __DIR__, 'assets', 'rasterize.js']) . ' pdf',
             str_replace(['"', "'"], '', $process->getCommandLine())
         );
+
+        $this->assertCount(1, $process->getEnv());
+    }
+
+    /**
+     * @test
+     */
+    public function attributeMerge()
+    {
+        $configHelper = new ConfigHelper(__DIR__, $this->config);
+        $process = $configHelper->buildProcess(new InputStream(), ['paper' => 'A4']);
+
+        $this->assertEquals(
+            implode(DIRECTORY_SEPARATOR, ['node ' . __DIR__, 'assets', 'rasterize.js']) . ' pdf A4',
+            str_replace(['"', "'"], '', $process->getCommandLine())
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function envMerge()
+    {
+        $configHelper = new ConfigHelper(__DIR__, $this->config);
+        $process = $configHelper->buildProcess(new InputStream(), [], ['MY_ENV' => 'something']);
+
+        $this->assertCount(2, $process->getEnv());
     }
 }

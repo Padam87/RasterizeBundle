@@ -16,7 +16,7 @@ class ConfigHelper
         $this->projectDir = $projectDir;
     }
 
-    public function buildProcess(InputStream $input, array $arguments = []): Process
+    public function buildProcess(InputStream $input, array $arguments = [], array $env = []): Process
     {
         $process = new Process(
             array_merge(
@@ -27,7 +27,7 @@ class ConfigHelper
                 array_values(array_merge($this->config['arguments'], $arguments))
             ),
             null,
-            [],
+            array_merge($this->config['env_vars'], $env),
             $input
         );
 

@@ -16,7 +16,7 @@ class Rasterizer
         $this->stopwatch = $stopwatch;
     }
 
-    public function rasterize(string $html, $arguments = []): string
+    public function rasterize(string $html, array $arguments = [], array $env = [], callable $callback = null): string
     {
         if ($this->stopwatch instanceof Stopwatch) {
             $this->stopwatch->start('rasterizer');
@@ -24,7 +24,12 @@ class Rasterizer
 
         $input = new InputStream();
 
-        $process = $this->configHelper->buildProcess($input, $arguments);
+        $process = $this->configHelper->buildProcess($input, $arguments, $env);
+
+        if ($callback) {
+            $callback($process);
+        }
+
         $process->start(null, []);
 
         $input->write($html);

@@ -46,4 +46,27 @@ class RasterizerTest extends TestCase
 
         $this->assertSame('pdfcontent', $rasterizer->rasterize('<html></html>'));
     }
+
+    /**
+     * @test
+     */
+    public function testCallback()
+    {
+        $this->stopwatch->shouldReceive('start')->once();
+        $this->stopwatch->shouldReceive('stop')->once();
+
+        $this->configHelper->shouldReceive('buildProcess')->once()->andReturn($this->process);
+
+        $this->process->shouldReceive('start');
+        $this->process->shouldReceive('wait');
+        $this->process->shouldReceive('setTimeout');
+        $this->process->shouldReceive('getOutput')->andReturn('pdfcontent');
+
+        $rasterizer = new Rasterizer($this->configHelper, $this->stopwatch);
+        $output = $rasterizer->rasterize('<html></html>', [], [], function (Process $process) {
+            $process->setTimeout(999);
+        });
+
+        $this->assertSame('pdfcontent', $output);
+    }
 }
