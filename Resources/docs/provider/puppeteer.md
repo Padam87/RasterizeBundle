@@ -28,20 +28,22 @@ const format = args[2];
 
     await page.goto('data:text/html,' + html, { waitUntil: 'networkidle0' });
 
+    let buff = null;
+
     if (format == 'pdf') {
-        await page.pdf({
-            path: 1, // STDOUT_FILENO
+        buff = await page.pdf({
             format: 'A4',
             printBackground: true,
             margin: { top: '1cm', right: '1cm', bottom: '1cm', left: '1cm' }
         });
     } else {
-        await page.screenshot({
-            path: 1, // STDOUT_FILENO
+        buff = await page.screenshot({
             type: format,
             quality: 100,
         });
     }
+
+    process.stdout.write(buff);
 
     await browser.close();
 })();
