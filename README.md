@@ -11,7 +11,7 @@
 
 # Rasterize Bundle #
 
-A bundle to rasterize web pages with PhantomJS for Symfony2
+A bundle to rasterize web pages with Puppeteer (or other) for Symfony2
 
 ```php
 $response = new Response(
@@ -31,7 +31,6 @@ $response = new Response(
 
 **Providers**
 - [Puppeteer](Resources/docs/provider/puppeteer.md)
-- [PhantomJS](Resources/docs/provider/phantomjs.md)
 - [Other](Resources/docs/provider/other.md)
 
 **How to...**
