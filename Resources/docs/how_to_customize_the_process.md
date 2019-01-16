@@ -4,7 +4,7 @@ The rasterize methods accepts a callback as the 4th parameter.
 
 ```php
 $response = new Response(
-    $this->get('padam87_rasterize.rasterizer')->rasterize(
+    $this->get(Rasterizer::class)->rasterize(
         $this->renderView('Bundle:Folder:template.pdf.twig'),
         [],
         [],

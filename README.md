@@ -15,7 +15,7 @@ A bundle to rasterize web pages with Puppeteer (or other) for Symfony2
 
 ```php
 $response = new Response(
-    $this->get('padam87_rasterize.rasterizer')->rasterize(
+    $this->get(Rasterizer::class)->rasterize(
         $this->renderView('Bundle:Folder:template.pdf.twig')
     ),
     200, [

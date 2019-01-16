@@ -25,7 +25,7 @@ const orientation = args[3];
 To change the orientation to `landscape`, you need to add one more parameter to the rasterizer call.
 
 ```php
-$this->get('padam87_rasterize.rasterizer')->rasterize(
+$this->get(Rasterizer::class)->rasterize(
     $this->renderView('Bundle:Folder:template.pdf.twig')
     [
         'orientation' => 'landscape'
