@@ -1,0 +1,10 @@
+services:
+    Padam87\RasterizeBundle\Rasterizer:
+        autowire: true
+        public: true
+
+    Padam87\RasterizeBundle\ConfigHelper:
+        autowire: true
+        arguments:
+            $projectDir: '%kernel.project_dir%'
+            $config: '%padam87_rasterize.config%'
