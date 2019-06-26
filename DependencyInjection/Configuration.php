@@ -13,10 +13,9 @@ class Configuration implements ConfigurationInterface
      */
     public function getConfigTreeBuilder()
     {
-        $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('padam87_rasterize');
+        $treeBuilder = new TreeBuilder('padam87_rasterize');
 
-        $rootNode
+        $treeBuilder->getRootNode()
             ->children()
                 ->arrayNode('script')
                     ->addDefaultsIfNotSet()
