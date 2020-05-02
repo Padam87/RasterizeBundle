@@ -55,10 +55,10 @@ class Configuration implements ConfigurationInterface
     private function getAssetsDir()
     {
         switch (Kernel::MAJOR_VERSION) {
-            case 4:
-                return 'assets';
-            default:
+            case 3:
                 return 'web';
+            default:
+                return 'assets';
         }
     }
 }
