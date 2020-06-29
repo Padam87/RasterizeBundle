@@ -22,11 +22,7 @@ const format = args[2];
     });
     const page = await browser.newPage();
 
-    // https://github.com/GoogleChrome/puppeteer/issues/728
-    // await page.setContent(html);
-    // await page.waitForNavigation({ waitUntil: 'networkidle0' });
-
-    await page.goto('data:text/html,' + html, { waitUntil: 'networkidle0' });
+    await page.setContent(html, { waitUntil: 'networkidle0' });
 
     let buff = null;
 
