@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <phpunit bootstrap="./Tests/bootstrap.php" colors="true">
-    <php>
-        <server name="KERNEL_DIR" value="./Tests/App/app" />
-    </php>
-
     <logging>
         <log type="coverage-clover" target="build/logs/clover.xml"/>
     </logging>
@@ -14,4 +10,11 @@
             <directory suffix="Test.php">./Tests</directory>
         </testsuite>
     </testsuites>
+
+    <filter>
+        <whitelist>
+            <file>ConfigHelper.php</file>
+            <file>Rasterizer.php</file>
+        </whitelist>
+    </filter>
 </phpunit>
