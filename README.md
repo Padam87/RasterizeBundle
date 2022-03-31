@@ -1,7 +1,3 @@
-[![Build Status](https://travis-ci.org/Padam87/RasterizeBundle.svg?branch=master)](https://travis-ci.org/Padam87/RasterizeBundle)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/Padam87/RasterizeBundle/badges/quality-score.png?s=dbb22e5306bff73f2b3494261ddb8d6d7c6b35d7)](https://scrutinizer-ci.com/g/Padam87/RasterizeBundle/)
-[![SensioLabsInsight](https://insight.sensiolabs.com/projects/7e2ecf7a-40d7-41f4-9103-a99593c435d2/mini.png)](https://insight.sensiolabs.com/projects/7e2ecf7a-40d7-41f4-9103-a99593c435d2)
-
 [![License](https://poser.pugx.org/padam87/rasterize-bundle/license.png)](https://packagist.org/packages/padam87/rasterize-bundle)
 [![Latest Stable Version](https://poser.pugx.org/padam87/rasterize-bundle/v/stable.png)](https://packagist.org/packages/padam87/rasterize-bundle)
 [![Latest Unstable Version](https://poser.pugx.org/padam87/rasterize-bundle/v/unstable.png)](https://packagist.org/packages/padam87/rasterize-bundle)
