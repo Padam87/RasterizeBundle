@@ -4,28 +4,24 @@ namespace Padam87\RasterizeBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
-use Symfony\Component\HttpKernel\Kernel;
 
 class Configuration implements ConfigurationInterface
 {
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder('padam87_rasterize');
-        $rootNode = method_exists($treeBuilder, 'getRootNode')
-            ? $treeBuilder->getRootNode()
-            : $treeBuilder->root('padam87_rasterize');
 
-        $rootNode
+        $treeBuilder->getRootNode()
             ->children()
                 ->arrayNode('script')
                     ->addDefaultsIfNotSet()
                     ->children()
                         ->scalarNode('callable')->defaultValue('node')->end()
                         ->scalarNode('path')
-                            ->defaultValue($this->getAssetsDir() . DIRECTORY_SEPARATOR . 'rasterize.js')
+                            ->defaultValue('assets' . DIRECTORY_SEPARATOR . 'rasterize.js')
                             ->info('Relative to project dir')
                         ->end()
                     ->end()
@@ -53,15 +49,5 @@ class Configuration implements ConfigurationInterface
         ;
 
         return $treeBuilder;
-    }
-
-    private function getAssetsDir()
-    {
-        switch (Kernel::MAJOR_VERSION) {
-            case 3:
-                return 'web';
-            default:
-                return 'assets';
-        }
     }
 }
