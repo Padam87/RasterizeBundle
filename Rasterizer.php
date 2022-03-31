@@ -7,8 +7,8 @@ use Symfony\Component\Stopwatch\Stopwatch;
 
 class Rasterizer
 {
-    protected $configHelper;
-    protected $stopwatch;
+    protected ConfigHelper $configHelper;
+    protected ?Stopwatch $stopwatch;
 
     public function __construct(ConfigHelper $configHelper, Stopwatch $stopwatch = null)
     {
