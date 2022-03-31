@@ -9,7 +9,7 @@ use Symfony\Component\HttpKernel\Kernel;
 class Configuration implements ConfigurationInterface
 {
     /**
-     * {@inheritdoc}
+     * @return TreeBuilder
      */
     public function getConfigTreeBuilder()
     {
