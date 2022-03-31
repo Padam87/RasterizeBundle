@@ -16,12 +16,12 @@ class RasterizerTest extends TestCase
     private $stopwatch;
     private $process;
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         m::close();
     }
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->configHelper = m::mock(ConfigHelper::class);
         $this->stopwatch = m::mock(Stopwatch::class);

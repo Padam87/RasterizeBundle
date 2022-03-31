@@ -7,8 +7,8 @@ use Symfony\Component\Process\Process;
 
 class ConfigHelper
 {
-    private $config;
-    private $projectDir;
+    private array $config;
+    private string $projectDir;
 
     public function __construct(string $projectDir, array $config)
     {
@@ -18,7 +18,7 @@ class ConfigHelper
 
     public function buildProcess(InputStream $input, array $arguments = [], array $env = []): Process
     {
-        $process = new Process(
+        return new Process(
             array_merge(
                 [
                     $this->config['script']['callable'],
@@ -30,7 +30,5 @@ class ConfigHelper
             array_merge($this->config['env_vars'], $env),
             $input
         );
-
-        return $process;
     }
 }

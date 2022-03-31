@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <phpunit bootstrap="./Tests/bootstrap.php" colors="true">
-    <logging>
-        <log type="coverage-clover" target="build/logs/clover.xml"/>
-    </logging>
-
     <testsuites>
         <testsuite name="Padam87RasterizeBundle">
             <directory suffix="Test.php">./Tests</directory>
         </testsuite>
     </testsuites>
 
-    <filter>
-        <whitelist>
+    <coverage processUncoveredFiles="true">
+        <include>
             <file>ConfigHelper.php</file>
             <file>Rasterizer.php</file>
-        </whitelist>
-    </filter>
+        </include>
+        <report>
+            <clover outputFile="build/logs/clover.xml"/>
+        </report>
+    </coverage>
 </phpunit>

@@ -16,12 +16,12 @@ class ConfigHelperTest extends TestCase
      */
     protected $config;
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         m::close();
     }
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->config = [
             'script' => [
