@@ -2,7 +2,6 @@
 
 [![License](https://poser.pugx.org/padam87/rasterize-bundle/license.png)](https://packagist.org/packages/padam87/rasterize-bundle)
 [![Latest Stable Version](https://poser.pugx.org/padam87/rasterize-bundle/v/stable.png)](https://packagist.org/packages/padam87/rasterize-bundle)
-[![Latest Unstable Version](https://poser.pugx.org/padam87/rasterize-bundle/v/unstable.png)](https://packagist.org/packages/padam87/rasterize-bundle)
 [![Total Downloads](https://poser.pugx.org/padam87/rasterize-bundle/downloads.png)](https://packagist.org/packages/padam87/rasterize-bundle)
 [![Monthly Downloads](https://poser.pugx.org/padam87/rasterize-bundle/d/monthly.png)](https://packagist.org/packages/padam87/rasterize-bundle)
 
