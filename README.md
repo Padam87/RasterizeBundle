@@ -1,3 +1,5 @@
+![CI status](https://github.com/Padam87/RasterizerBundle/actions/workflows/ci.yaml/badge.svg)
+
 [![License](https://poser.pugx.org/padam87/rasterize-bundle/license.png)](https://packagist.org/packages/padam87/rasterize-bundle)
 [![Latest Stable Version](https://poser.pugx.org/padam87/rasterize-bundle/v/stable.png)](https://packagist.org/packages/padam87/rasterize-bundle)
 [![Latest Unstable Version](https://poser.pugx.org/padam87/rasterize-bundle/v/unstable.png)](https://packagist.org/packages/padam87/rasterize-bundle)
