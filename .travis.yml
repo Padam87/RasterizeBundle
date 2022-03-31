@@ -15,9 +15,6 @@ before_script:
 script:
   - composer test
 
-after_script:
-  - vendor/bin/coveralls -v
-
 notifications:
   email:
     - prager.adam87@gmail.com
