@@ -11,19 +11,15 @@ on:
 jobs:
   phpunit:
     name: "PHPUnit"
-    runs-on: "ubuntu-20.04"
+    runs-on: "ubuntu-24.04"
 
     strategy:
       matrix:
         php-version:
-          - "8.0"
-          - "8.1"
+          - "8.4"
         dependencies:
           - "highest"
-        include:
-          - php-version: "8.0"
-            dependencies: "lowest"
-
+          - "lowest"
     steps:
       - name: "Checkout"
         uses: "actions/checkout@v2"
