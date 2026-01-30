@@ -7,7 +7,6 @@ use Mockery as m;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Process\InputStream;
 use Symfony\Component\Process\Process;
-use Symfony\Component\Process\ProcessUtils;
 
 class ConfigHelperTest extends TestCase
 {
@@ -40,7 +39,7 @@ class ConfigHelperTest extends TestCase
     /**
      * @test
      */
-    public function isTheProcessBuilt()
+    public function isTheProcessBuilt(): void
     {
         $configHelper = new ConfigHelper(__DIR__, $this->config);
         $process = $configHelper->buildProcess(new InputStream());
@@ -58,7 +57,7 @@ class ConfigHelperTest extends TestCase
     /**
      * @test
      */
-    public function attributeMerge()
+    public function attributeMerge(): void
     {
         $configHelper = new ConfigHelper(__DIR__, $this->config);
         $process = $configHelper->buildProcess(new InputStream(), ['paper' => 'A4']);
@@ -72,7 +71,7 @@ class ConfigHelperTest extends TestCase
     /**
      * @test
      */
-    public function envMerge()
+    public function envMerge(): void
     {
         $configHelper = new ConfigHelper(__DIR__, $this->config);
         $process = $configHelper->buildProcess(new InputStream(), [], ['MY_ENV' => 'something']);

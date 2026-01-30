@@ -3,7 +3,6 @@
 namespace Padam87\RasterizeBundle\Tests;
 
 use Mockery as m;
-use Mockery\MockInterface;
 use Padam87\RasterizeBundle\ConfigHelper;
 use Padam87\RasterizeBundle\Rasterizer;
 use PHPUnit\Framework\TestCase;
@@ -31,7 +30,7 @@ class RasterizerTest extends TestCase
     /**
      * @test
      */
-    public function testRasterize()
+    public function testRasterize(): void
     {
         $this->stopwatch->shouldReceive('start')->once();
         $this->stopwatch->shouldReceive('stop')->once();
@@ -50,7 +49,7 @@ class RasterizerTest extends TestCase
     /**
      * @test
      */
-    public function testCallback()
+    public function testCallback(): void
     {
         $this->stopwatch->shouldReceive('start')->once();
         $this->stopwatch->shouldReceive('stop')->once();
