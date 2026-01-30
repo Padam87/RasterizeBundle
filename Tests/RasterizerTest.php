@@ -5,6 +5,7 @@ namespace Padam87\RasterizeBundle\Tests;
 use Mockery as m;
 use Padam87\RasterizeBundle\ConfigHelper;
 use Padam87\RasterizeBundle\Rasterizer;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Stopwatch\Stopwatch;
@@ -27,9 +28,8 @@ class RasterizerTest extends TestCase
         $this->process = m::mock(Process::class);
     }
 
-    /**
-     * @test
-     */
+
+    #[Test]
     public function testRasterize(): void
     {
         $this->stopwatch->shouldReceive('start')->once();
@@ -46,9 +46,7 @@ class RasterizerTest extends TestCase
         $this->assertSame('pdfcontent', $rasterizer->rasterize('<html></html>'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function testCallback(): void
     {
         $this->stopwatch->shouldReceive('start')->once();

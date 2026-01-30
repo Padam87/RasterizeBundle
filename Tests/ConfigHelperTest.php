@@ -4,6 +4,7 @@ namespace Padam87\RasterizeBundle\Tests;
 
 use Padam87\RasterizeBundle\ConfigHelper;
 use Mockery as m;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Process\InputStream;
 use Symfony\Component\Process\Process;
@@ -36,9 +37,7 @@ class ConfigHelperTest extends TestCase
         ];
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function isTheProcessBuilt(): void
     {
         $configHelper = new ConfigHelper(__DIR__, $this->config);
@@ -54,9 +53,7 @@ class ConfigHelperTest extends TestCase
         $this->assertCount(1, $process->getEnv());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function attributeMerge(): void
     {
         $configHelper = new ConfigHelper(__DIR__, $this->config);
@@ -68,9 +65,7 @@ class ConfigHelperTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function envMerge(): void
     {
         $configHelper = new ConfigHelper(__DIR__, $this->config);
