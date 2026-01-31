@@ -3,7 +3,6 @@
 namespace Padam87\RasterizeBundle\Tests;
 
 use Padam87\RasterizeBundle\ConfigHelper;
-use Mockery as m;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Process\InputStream;
@@ -15,11 +14,6 @@ class ConfigHelperTest extends TestCase
      * @var array
      */
     protected $config;
-
-    protected function tearDown(): void
-    {
-        m::close();
-    }
 
     public function setUp(): void
     {

@@ -1,19 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<phpunit bootstrap="./Tests/bootstrap.php" colors="true">
-    <testsuites>
-        <testsuite name="Padam87RasterizeBundle">
-            <directory suffix="Test.php">./Tests</directory>
-        </testsuite>
-    </testsuites>
-
-    <coverage processUncoveredFiles="true">
-        <include>
-            <file>ConfigHelper.php</file>
-            <file>Rasterizer.php</file>
-        </include>
-        <report>
-            <clover outputFile="build/logs/clover.xml"/>
-        </report>
-    </coverage>
+<phpunit bootstrap="./Tests/bootstrap.php" colors="true" cacheDirectory=".phpunit.cache">
+  <testsuites>
+    <testsuite name="Padam87RasterizeBundle">
+      <directory suffix="Test.php">./Tests</directory>
+    </testsuite>
+  </testsuites>
+  <source ignoreIndirectDeprecations="true">
+    <include>
+      <directory>Tests</directory>
+    </include>
+  </source>
+  <php>
+    <env name="SYMFONY_DEPRECATIONS_HELPER" value="0" force="true" />
+  </php>
 </phpunit>
