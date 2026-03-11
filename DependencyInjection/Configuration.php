@@ -33,12 +33,8 @@ class Configuration implements ConfigurationInterface
                         ]
                     )
                     ->beforeNormalization()
-                        ->ifTrue(function ($v) {
-                            return !isset($v['format']);
-                        })
-                        ->then(function ($v) {
-                            return array_merge(['format' => 'pdf'], $v);
-                        })
+                        ->ifTrue(fn(array $v) => !isset($v['format']))
+                        ->then(fn($v) => array_merge(['format' => 'pdf'], $v))
                     ->end()
                     ->prototype('scalar')->end()
                 ->end()

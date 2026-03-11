@@ -2,10 +2,9 @@
 
 namespace Padam87\RasterizeBundle\Tests;
 
-use Mockery as m;
-use Mockery\MockInterface;
 use Padam87\RasterizeBundle\ConfigHelper;
 use Padam87\RasterizeBundle\Rasterizer;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Stopwatch\Stopwatch;
@@ -16,51 +15,43 @@ class RasterizerTest extends TestCase
     private $stopwatch;
     private $process;
 
-    protected function tearDown(): void
-    {
-        m::close();
-    }
-
     public function setUp(): void
     {
-        $this->configHelper = m::mock(ConfigHelper::class);
-        $this->stopwatch = m::mock(Stopwatch::class);
-        $this->process = m::mock(Process::class);
+        $this->configHelper = $this->createMock(ConfigHelper::class);
+        $this->stopwatch = $this->createMock(Stopwatch::class);
+        $this->process = $this->createMock(Process::class);
     }
 
-    /**
-     * @test
-     */
-    public function testRasterize()
+
+    #[Test]
+    public function testRasterize(): void
     {
-        $this->stopwatch->shouldReceive('start')->once();
-        $this->stopwatch->shouldReceive('stop')->once();
+        $this->stopwatch->expects($this->once())->method('start');
+        $this->stopwatch->expects($this->once())->method('stop');
 
-        $this->configHelper->shouldReceive('buildProcess')->once()->andReturn($this->process);
+        $this->configHelper->expects($this->once())->method('buildProcess')->willReturn($this->process);
 
-        $this->process->shouldReceive('start');
-        $this->process->shouldReceive('wait');
-        $this->process->shouldReceive('getOutput')->andReturn('pdfcontent');
+        $this->process->expects($this->any())->method('start');
+        $this->process->expects($this->any())->method('wait');
+        $this->process->expects($this->any())->method('getOutput')->willReturn('pdfcontent');
 
         $rasterizer = new Rasterizer($this->configHelper, $this->stopwatch);
 
         $this->assertSame('pdfcontent', $rasterizer->rasterize('<html></html>'));
     }
 
-    /**
-     * @test
-     */
-    public function testCallback()
+    #[Test]
+    public function testCallback(): void
     {
-        $this->stopwatch->shouldReceive('start')->once();
-        $this->stopwatch->shouldReceive('stop')->once();
+        $this->stopwatch->expects($this->once())->method('start');
+        $this->stopwatch->expects($this->once())->method('stop');
 
-        $this->configHelper->shouldReceive('buildProcess')->once()->andReturn($this->process);
+        $this->configHelper->expects($this->once())->method('buildProcess')->willReturn($this->process);
 
-        $this->process->shouldReceive('start');
-        $this->process->shouldReceive('wait');
-        $this->process->shouldReceive('setTimeout');
-        $this->process->shouldReceive('getOutput')->andReturn('pdfcontent');
+        $this->process->expects($this->any())->method('start');
+        $this->process->expects($this->any())->method('wait');
+        $this->process->expects($this->any())->method('setTimeout');
+        $this->process->expects($this->any())->method('getOutput')->willReturn('pdfcontent');
 
         $rasterizer = new Rasterizer($this->configHelper, $this->stopwatch);
         $output = $rasterizer->rasterize('<html></html>', [], [], function (Process $process) {

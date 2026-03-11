@@ -7,13 +7,8 @@ use Symfony\Component\Process\Process;
 
 class ConfigHelper
 {
-    private array $config;
-    private string $projectDir;
-
-    public function __construct(string $projectDir, array $config)
+    public function __construct(private string $projectDir, private array $config)
     {
-        $this->config = $config;
-        $this->projectDir = $projectDir;
     }
 
     public function buildProcess(InputStream $input, array $arguments = [], array $env = []): Process

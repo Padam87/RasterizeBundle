@@ -3,11 +3,10 @@
 namespace Padam87\RasterizeBundle\Tests;
 
 use Padam87\RasterizeBundle\ConfigHelper;
-use Mockery as m;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Process\InputStream;
 use Symfony\Component\Process\Process;
-use Symfony\Component\Process\ProcessUtils;
 
 class ConfigHelperTest extends TestCase
 {
@@ -15,11 +14,6 @@ class ConfigHelperTest extends TestCase
      * @var array
      */
     protected $config;
-
-    protected function tearDown(): void
-    {
-        m::close();
-    }
 
     public function setUp(): void
     {
@@ -37,10 +31,8 @@ class ConfigHelperTest extends TestCase
         ];
     }
 
-    /**
-     * @test
-     */
-    public function isTheProcessBuilt()
+    #[Test]
+    public function isTheProcessBuilt(): void
     {
         $configHelper = new ConfigHelper(__DIR__, $this->config);
         $process = $configHelper->buildProcess(new InputStream());
@@ -55,10 +47,8 @@ class ConfigHelperTest extends TestCase
         $this->assertCount(1, $process->getEnv());
     }
 
-    /**
-     * @test
-     */
-    public function attributeMerge()
+    #[Test]
+    public function attributeMerge(): void
     {
         $configHelper = new ConfigHelper(__DIR__, $this->config);
         $process = $configHelper->buildProcess(new InputStream(), ['paper' => 'A4']);
@@ -69,10 +59,8 @@ class ConfigHelperTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
-    public function envMerge()
+    #[Test]
+    public function envMerge(): void
     {
         $configHelper = new ConfigHelper(__DIR__, $this->config);
         $process = $configHelper->buildProcess(new InputStream(), [], ['MY_ENV' => 'something']);
